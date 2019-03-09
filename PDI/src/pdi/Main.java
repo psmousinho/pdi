@@ -70,7 +70,7 @@ public class Main extends javax.swing.JFrame {
         NR = new javax.swing.JMenuItem();
         NG = new javax.swing.JMenuItem();
         NB = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        NY = new javax.swing.JMenuItem();
         N = new javax.swing.JMenuItem();
         Brilhos = new javax.swing.JMenu();
         BR = new javax.swing.JMenu();
@@ -93,7 +93,12 @@ public class Main extends javax.swing.JFrame {
         LG = new javax.swing.JMenuItem();
         LB = new javax.swing.JMenuItem();
         LY = new javax.swing.JMenuItem();
-        MEDIANA = new javax.swing.JMenuItem();
+        Medianas = new javax.swing.JMenu();
+        MR = new javax.swing.JMenuItem();
+        MG = new javax.swing.JMenuItem();
+        MB = new javax.swing.JMenuItem();
+        MY = new javax.swing.JMenuItem();
+        MC = new javax.swing.JMenuItem();
         CONCOLUCAO = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -272,13 +277,13 @@ public class Main extends javax.swing.JFrame {
         });
         Negativos.add(NB);
 
-        jMenuItem1.setText("Y");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        NY.setText("Y");
+        NY.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                NYActionPerformed(evt);
             }
         });
-        Negativos.add(jMenuItem1);
+        Negativos.add(NY);
 
         N.setText("Completo");
         N.addActionListener(new java.awt.event.ActionListener() {
@@ -430,13 +435,49 @@ public class Main extends javax.swing.JFrame {
 
         Filters.add(Limiares);
 
-        MEDIANA.setText("Filtro Mediana");
-        MEDIANA.addActionListener(new java.awt.event.ActionListener() {
+        Medianas.setText("Filtro Mediana");
+
+        MR.setText("Vermelho");
+        MR.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MEDIANAActionPerformed(evt);
+                MRActionPerformed(evt);
             }
         });
-        Filters.add(MEDIANA);
+        Medianas.add(MR);
+
+        MG.setText("Verde");
+        MG.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MGActionPerformed(evt);
+            }
+        });
+        Medianas.add(MG);
+
+        MB.setText("Azul");
+        MB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MBActionPerformed(evt);
+            }
+        });
+        Medianas.add(MB);
+
+        MY.setText("Y");
+        MY.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MYActionPerformed(evt);
+            }
+        });
+        Medianas.add(MY);
+
+        MC.setText("Completra");
+        MC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MCActionPerformed(evt);
+            }
+        });
+        Medianas.add(MC);
+
+        Filters.add(Medianas);
 
         CONCOLUCAO.setText("Convolução");
         CONCOLUCAO.addActionListener(new java.awt.event.ActionListener() {
@@ -664,108 +705,6 @@ public class Main extends javax.swing.JFrame {
             pnlImage.setImage(newImage);
         }
     }//GEN-LAST:event_BMActionPerformed
-
-    private void MEDIANAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MEDIANAActionPerformed
-        BufferedImage image = pnlImage.getCurrentImage();
-        if (image != null) {
-            try {
-                int m, n;
-                JTextField mField = new JTextField(5);
-                JTextField nField = new JTextField(5);
-
-                Object[] fields = {"m:", mField, "n:", nField};
-
-                int result = JOptionPane.showConfirmDialog(null, fields,
-                        "Diga o valor m x n do seu filtro", JOptionPane.OK_CANCEL_OPTION);
-                if (result == JOptionPane.OK_OPTION) {
-                    m = Integer.parseInt(mField.getText());
-                    n = Integer.parseInt(nField.getText());
-
-                } else {
-                    return;
-                }
-
-                BufferedImage newImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_RGB);
-
-                for (int lin = 0; lin < image.getWidth(); lin++) {
-                    for (int col = 0; col < image.getHeight(); col++) {
-                        int r = 0;
-                        int g = 0;
-                        int b = 0;
-                        Color color = null;
-                        for (int i = lin - m / 2; i < lin + m / 2; i++) {
-                            if (i < 0 || i >= image.getWidth()) {
-                                continue;
-                            }
-                            for (int j = col - n / 2; j < col + n / 2; j++) {
-                                if (j < 0 || j >= image.getHeight()) {
-                                    continue;
-                                }
-
-                                color = new Color(image.getRGB(i, j));
-                                r += color.getRed();
-                                g += color.getGreen();
-                                b += color.getBlue();
-                            }
-                        }
-
-                        r /= m * n;
-                        g /= m * n;
-                        b /= m * n;
-
-                        r = (r > 255) ? 255 : (r < 0) ? 0 : r;
-                        g = (g > 255) ? 255 : (g < 0) ? 0 : g;
-                        b = (b > 255) ? 255 : (b < 0) ? 0 : b;
-
-                        color = new Color(r, g, b);
-                        newImage.setRGB(lin, col, color.getRGB());
-                    }
-                }
-
-                pnlImage.setImage(newImage);
-
-                if (YIQ != null) {
-                    for (int lin = 0; lin < YIQ.length; lin++) {
-                        for (int col = 0; col < YIQ[0].length; col++) {
-                            int Y = 0;
-                            int I = 0;
-                            int Q = 0;
-                            Color color = null;
-                            for (int i = lin - m / 2; i < lin + m / 2; i++) {
-                                if (i < 0 || i >= image.getWidth()) {
-                                    continue;
-                                }
-                                for (int j = col - n / 2; j < col + n / 2; j++) {
-                                    if (j < 0 || j >= image.getHeight()) {
-                                        continue;
-                                    }
-
-                                    Y += YIQ[i][j][0];
-                                    I += YIQ[i][j][1];
-                                    Q += YIQ[i][j][2];
-                                }
-                            }
-
-                            Y /= m * n;
-                            I /= m * n;
-                            Q /= m * n;
-
-                            YIQ[lin][col][0] = Y;
-                            YIQ[lin][col][0] = I;
-                            YIQ[lin][col][0] = Q;
-                        }
-                    }
-                }
-
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, "Caracter invalido. Digite um numero.");
-            }
-        }
-
-        if (YIQ != null) {
-
-        }
-    }//GEN-LAST:event_MEDIANAActionPerformed
 
     private void CONCOLUCAOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CONCOLUCAOActionPerformed
         // TODO add your handling code here:
@@ -1198,7 +1137,7 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_MULTIPLICATIVO5ActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void NYActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NYActionPerformed
         if (YIQ != null) {
             for (int lin = 0; lin < YIQ.length; lin++) {
                 for (int col = 0; col < YIQ[0].length; col++) {
@@ -1207,7 +1146,7 @@ public class Main extends javax.swing.JFrame {
                 }
             }
         }
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_NYActionPerformed
 
     private void LRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LRActionPerformed
         BufferedImage image = pnlImage.getCurrentImage();
@@ -1347,6 +1286,298 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_LBActionPerformed
 
+    private void MRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MRActionPerformed
+        BufferedImage image = pnlImage.getCurrentImage();
+        if (image != null) {
+            try {
+                int m, n;
+                JTextField mField = new JTextField(5);
+                JTextField nField = new JTextField(5);
+
+                Object[] fields = {"m:", mField, "n:", nField};
+
+                int result = JOptionPane.showConfirmDialog(null, fields,
+                        "Diga o valor m x n do seu filtro", JOptionPane.OK_CANCEL_OPTION);
+                if (result == JOptionPane.OK_OPTION) {
+                    m = Integer.parseInt(mField.getText());
+                    n = Integer.parseInt(nField.getText());
+
+                } else {
+                    return;
+                }
+
+                BufferedImage newImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_RGB);
+
+                for (int lin = 0; lin < image.getWidth(); lin++) {
+                    for (int col = 0; col < image.getHeight(); col++) {
+                        Color color = null;
+                        int r = 0;
+
+                        for (int i = lin - m / 2; i < lin + m / 2; i++) {
+                            if (i < 0 || i >= image.getWidth()) {
+                                continue;
+                            }
+                            for (int j = col - n / 2; j < col + n / 2; j++) {
+                                if (j < 0 || j >= image.getHeight()) {
+                                    continue;
+                                }
+
+                                color = new Color(image.getRGB(i, j));
+                                r += color.getRed();
+
+                            }
+                        }
+
+                        r = r / (m * n);
+                        r = (r > 255) ? 255 : (r < 0) ? 0 : r;
+
+                        color = new Color(image.getRGB(lin, col));
+                        color = new Color(r, color.getGreen(), color.getBlue());
+                        newImage.setRGB(lin, col, color.getRGB());
+
+                    }
+                }
+
+                pnlImage.setImage(newImage);
+
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Caracter invalido. Digite um numero.");
+            }
+        }
+    }//GEN-LAST:event_MRActionPerformed
+
+    private void MGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MGActionPerformed
+        BufferedImage image = pnlImage.getCurrentImage();
+        if (image != null) {
+            try {
+                int m, n;
+                JTextField mField = new JTextField(5);
+                JTextField nField = new JTextField(5);
+
+                Object[] fields = {"m:", mField, "n:", nField};
+
+                int result = JOptionPane.showConfirmDialog(null, fields,
+                        "Diga o valor m x n do seu filtro", JOptionPane.OK_CANCEL_OPTION);
+                if (result == JOptionPane.OK_OPTION) {
+                    m = Integer.parseInt(mField.getText());
+                    n = Integer.parseInt(nField.getText());
+
+                } else {
+                    return;
+                }
+
+                BufferedImage newImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_RGB);
+
+                for (int lin = 0; lin < image.getWidth(); lin++) {
+                    for (int col = 0; col < image.getHeight(); col++) {
+                        Color color = null;
+                        int g = 0;
+
+                        for (int i = lin - m / 2; i < lin + m / 2; i++) {
+                            if (i < 0 || i >= image.getWidth()) {
+                                continue;
+                            }
+                            for (int j = col - n / 2; j < col + n / 2; j++) {
+                                if (j < 0 || j >= image.getHeight()) {
+                                    continue;
+                                }
+
+                                color = new Color(image.getRGB(i, j));
+                                g += color.getGreen();
+
+                            }
+                        }
+
+                        g /= m * n;
+                        g = (g > 255) ? 255 : (g < 0) ? 0 : g;
+
+                        color = new Color(image.getRGB(lin, col));
+                        color = new Color(color.getGreen(), g, color.getBlue());
+                        newImage.setRGB(lin, col, color.getRGB());
+                    }
+                }
+
+                pnlImage.setImage(newImage);
+
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Caracter invalido. Digite um numero.");
+            }
+        }
+    }//GEN-LAST:event_MGActionPerformed
+
+    private void MBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MBActionPerformed
+        BufferedImage image = pnlImage.getCurrentImage();
+        if (image != null) {
+            try {
+                int m, n;
+                JTextField mField = new JTextField(5);
+                JTextField nField = new JTextField(5);
+
+                Object[] fields = {"m:", mField, "n:", nField};
+
+                int result = JOptionPane.showConfirmDialog(null, fields,
+                        "Diga o valor m x n do seu filtro", JOptionPane.OK_CANCEL_OPTION);
+                if (result == JOptionPane.OK_OPTION) {
+                    m = Integer.parseInt(mField.getText());
+                    n = Integer.parseInt(nField.getText());
+
+                } else {
+                    return;
+                }
+
+                BufferedImage newImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_RGB);
+
+                for (int lin = 0; lin < image.getWidth(); lin++) {
+                    for (int col = 0; col < image.getHeight(); col++) {
+                        Color color = null;
+                        int b = 0;
+
+                        for (int i = lin - m / 2; i < lin + m / 2; i++) {
+                            if (i < 0 || i >= image.getWidth()) {
+                                continue;
+                            }
+                            for (int j = col - n / 2; j < col + n / 2; j++) {
+                                if (j < 0 || j >= image.getHeight()) {
+                                    continue;
+                                }
+
+                                color = new Color(image.getRGB(i, j));
+                                b += color.getBlue();
+
+                            }
+                        }
+
+                        b /= m * n;
+                        b = (b > 255) ? 255 : (b < 0) ? 0 : b;
+
+                        color = new Color(image.getRGB(lin, col));
+                        color = new Color(color.getBlue(), color.getGreen(), b);
+                        newImage.setRGB(lin, col, color.getRGB());
+                    }
+                }
+
+                pnlImage.setImage(newImage);
+
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Caracter invalido. Digite um numero.");
+            }
+        }
+    }//GEN-LAST:event_MBActionPerformed
+
+    private void MYActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MYActionPerformed
+        if (YIQ != null) {
+            try {
+                int m, n;
+                JTextField mField = new JTextField(5);
+                JTextField nField = new JTextField(5);
+
+                Object[] fields = {"m:", mField, "n:", nField};
+
+                int result = JOptionPane.showConfirmDialog(null, fields,
+                        "Diga o valor m x n do seu filtro", JOptionPane.OK_CANCEL_OPTION);
+                if (result == JOptionPane.OK_OPTION) {
+                    m = Integer.parseInt(mField.getText());
+                    n = Integer.parseInt(nField.getText());
+
+                } else {
+                    return;
+                }
+
+                for (int lin = 0; lin < YIQ.length; lin++) {
+                    for (int col = 0; col < YIQ[0].length; col++) {
+                        int Y = 0;
+
+                        for (int i = lin - m / 2; i < lin + m / 2; i++) {
+                            if (i < 0 || i >= YIQ.length) {
+                                continue;
+                            }
+                            for (int j = col - n / 2; j < col + n / 2; j++) {
+                                if (j < 0 || j >= YIQ[0].length) {
+                                    continue;
+                                }
+
+                                Y += YIQ[i][j][0];
+
+                            }
+                        }
+
+                        Y /= m * n;
+
+                        YIQ[lin][col][0] = Y;
+
+                    }
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Caracter invalido. Digite um numero.");
+            }
+        }
+    }//GEN-LAST:event_MYActionPerformed
+
+    private void MCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MCActionPerformed
+        BufferedImage image = pnlImage.getCurrentImage();
+        if (image != null) {
+            try {
+                int m, n;
+                JTextField mField = new JTextField(5);
+                JTextField nField = new JTextField(5);
+
+                Object[] fields = {"m:", mField, "n:", nField};
+
+                int result = JOptionPane.showConfirmDialog(null, fields,
+                        "Diga o valor m x n do seu filtro", JOptionPane.OK_CANCEL_OPTION);
+                if (result == JOptionPane.OK_OPTION) {
+                    m = Integer.parseInt(mField.getText());
+                    n = Integer.parseInt(nField.getText());
+
+                } else {
+                    return;
+                }
+
+                BufferedImage newImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_RGB);
+
+                for (int lin = 0; lin < image.getWidth(); lin++) {
+                    for (int col = 0; col < image.getHeight(); col++) {
+                        int r = 0;
+                        int g = 0;
+                        int b = 0;
+                        Color color = null;
+                        for (int i = lin - m / 2; i < lin + m / 2; i++) {
+                            if (i < 0 || i >= image.getWidth()) {
+                                continue;
+                            }
+                            for (int j = col - n / 2; j < col + n / 2; j++) {
+                                if (j < 0 || j >= image.getHeight()) {
+                                    continue;
+                                }
+
+                                color = new Color(image.getRGB(i, j));
+                                r += color.getRed();
+                                g += color.getGreen();
+                                b += color.getBlue();
+                            }
+                        }
+
+                        r /= m * n;
+                        g /= m * n;
+                        b /= m * n;
+
+                        r = (r > 255) ? 255 : (r < 0) ? 0 : r;
+                        g = (g > 255) ? 255 : (g < 0) ? 0 : g;
+                        b = (b > 255) ? 255 : (b < 0) ? 0 : b;
+
+                        color = new Color(r, g, b);
+                        newImage.setRGB(lin, col, color.getRGB());
+                    }
+                }
+
+                pnlImage.setImage(newImage);
+
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Caracter invalido. Digite um numero.");
+            }
+        }
+    }//GEN-LAST:event_MCActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1362,83 +1593,23 @@ public class Main extends javax.swing.JFrame {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
 
-                
-
-
-
-
-
-
-
-
-
-}
+                }
             }
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(Main.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
-
-
-
-
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-
-        
-
-
-
-
-
-
-
-
-
-} catch (InstantiationException ex) {
+        } catch (InstantiationException ex) {
             java.util.logging.Logger.getLogger(Main.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
-
-
-
-
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-
-        
-
-
-
-
-
-
-
-
-
-} catch (IllegalAccessException ex) {
+        } catch (IllegalAccessException ex) {
             java.util.logging.Logger.getLogger(Main.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
-
-
-
-
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-
-        
-
-
-
-
-
-
-
-
-
-} catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Main.class
-
-
-
-
-
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -1498,17 +1669,23 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenuItem LR;
     private javax.swing.JMenuItem LY;
     private javax.swing.JMenu Limiares;
-    private javax.swing.JMenuItem MEDIANA;
+    private javax.swing.JMenuItem MB;
+    private javax.swing.JMenuItem MC;
+    private javax.swing.JMenuItem MG;
+    private javax.swing.JMenuItem MR;
     private javax.swing.JMenuItem MULTIPLICATIVO1;
     private javax.swing.JMenuItem MULTIPLICATIVO2;
     private javax.swing.JMenuItem MULTIPLICATIVO3;
     private javax.swing.JMenuItem MULTIPLICATIVO4;
     private javax.swing.JMenuItem MULTIPLICATIVO5;
+    private javax.swing.JMenuItem MY;
+    private javax.swing.JMenu Medianas;
     private javax.swing.JMenuBar Menu;
     private javax.swing.JMenuItem N;
     private javax.swing.JMenuItem NB;
     private javax.swing.JMenuItem NG;
     private javax.swing.JMenuItem NR;
+    private javax.swing.JMenuItem NY;
     private javax.swing.JMenu Negativos;
     private javax.swing.JMenuItem OpenAction;
     private javax.swing.JMenuItem QuitAction;
@@ -1518,7 +1695,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton btnAumentar;
     private javax.swing.JButton btnDiminuir;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPanel pnlControl;
