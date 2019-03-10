@@ -555,6 +555,11 @@ public class Main extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    /** 
+     * Esse metodo abre um arquivo e passa esse arquivo para o ImageManager que retorna
+     * uma BufferedImage caso o arquivo seja uma imagem ou null caso contrario
+     */
     private void OpenActionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OpenActionActionPerformed
         int returnVal = fileChooser.showOpenDialog(this);
 
@@ -579,6 +584,9 @@ public class Main extends javax.swing.JFrame {
         setButtonsEnabled(true);
     }//GEN-LAST:event_OpenActionActionPerformed
 
+    /** 
+     * Esse metodo retorna o programa para o estado inicial
+     */
     private void CLoseActionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CLoseActionActionPerformed
         pnlImage.clearImage();
         YIQ = null;
@@ -587,6 +595,9 @@ public class Main extends javax.swing.JFrame {
         setButtonsEnabled(false);
     }//GEN-LAST:event_CLoseActionActionPerformed
 
+    /**
+     * Esse metodo salva a imagem atual com uso do ImageManager
+     */
     private void SaveActionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveActionActionPerformed
         BufferedImage currentImage = pnlImage.getCurrentImage();
         if (currentImage != null) {
@@ -603,10 +614,16 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_SaveActionActionPerformed
 
+    /**
+     * Esse metodo encerra o programa
+     */
     private void QuitActionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_QuitActionActionPerformed
         System.exit(0);
     }//GEN-LAST:event_QuitActionActionPerformed
 
+    /**
+     * Esse metodo cria uma matriz que representa a imagem atual em formato YIQ
+     */
     private void toYIQActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toYIQActionPerformed
         BufferedImage image = pnlImage.getCurrentImage();
 
@@ -630,6 +647,10 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_toYIQActionPerformed
 
+    /**
+     * Caso a matriz YIQ ja estana inicializada, esse metodo a converte em uma imagem RGB.
+     * Criando uma nova janela para mostra-la
+     */
     private void toRGBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toRGBActionPerformed
         if (YIQ != null) {
             BufferedImage newImage = new BufferedImage(YIQ.length, YIQ[0].length, BufferedImage.TYPE_INT_RGB);
@@ -660,6 +681,10 @@ public class Main extends javax.swing.JFrame {
         YIQ = null;
     }//GEN-LAST:event_toRGBActionPerformed
 
+    /**
+     * Esse metodo separa a banda vermelha da imagem e a aprensenta para o usuario
+     * @param evt 
+     */
     private void RActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RActionPerformed
         BufferedImage image = pnlImage.getCurrentImage();
         BufferedImage newImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_RGB);
@@ -675,6 +700,10 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_RActionPerformed
 
+    /**
+     * Esse metodo separa a banda vermelha da imagem e a aprensenta para o usuario de forma monocromatica
+     * @param evt 
+     */
     private void RMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RMActionPerformed
         BufferedImage image = pnlImage.getCurrentImage();
         if (image != null) {
@@ -690,6 +719,10 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_RMActionPerformed
 
+    /**
+     * Esse metodo separa a banda verde da imagem e a aprensenta para o usuario
+     * @param evt 
+     */
     private void GActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GActionPerformed
         BufferedImage image = pnlImage.getCurrentImage();
         if (image != null) {
@@ -705,6 +738,10 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_GActionPerformed
 
+    /**
+     * Esse metodo separa a banda vermelha da imagem e a aprensenta para o usuario de forma monocromatica
+     * @param evt 
+     */
     private void GMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GMActionPerformed
         BufferedImage image = pnlImage.getCurrentImage();
         if (image != null) {
@@ -720,6 +757,10 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_GMActionPerformed
 
+    /**
+     * Esse metodo separa a banda azul da imagem e a aprensenta para o usuario
+     * @param evt 
+     */
     private void BActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BActionPerformed
         BufferedImage image = pnlImage.getCurrentImage();
         if (image != null) {
@@ -735,6 +776,10 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_BActionPerformed
 
+    /**
+     * Esse metodo separa a banda vermelha da imagem e a aprensenta para o usuario de forma monocromatica
+     * @param evt 
+     */
     private void BMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BMActionPerformed
         BufferedImage image = pnlImage.getCurrentImage();
         if (image != null) {
@@ -750,6 +795,10 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_BMActionPerformed
 
+    /**
+     * Esse metodo diminui a imagem atual para metade de seu tamanho
+     * @param evt 
+     */
     private void btnDiminuirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDiminuirActionPerformed
         BufferedImage image = pnlImage.getCurrentImage();
         if (image != null) {
@@ -768,6 +817,10 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnDiminuirActionPerformed
 
+    /**
+     * Esse metodo amplia a imagem atual para o dobro de seu tamanho
+     * @param evt 
+     */
     private void btnAumentarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAumentarActionPerformed
         BufferedImage image = pnlImage.getCurrentImage();
         if (image != null) {
@@ -792,6 +845,10 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnAumentarActionPerformed
 
+    /**
+     * Esse metodo aplica o negativo somente na banda vermelha da imagem
+     * @param evt 
+     */
     private void NRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NRActionPerformed
         BufferedImage image = pnlImage.getCurrentImage();
         if (image != null) {
@@ -807,6 +864,10 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_NRActionPerformed
 
+    /**
+     * Esse metodo aplica o negativo somente na banda verde da imagem
+     * @param evt 
+     */
     private void NGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NGActionPerformed
         BufferedImage image = pnlImage.getCurrentImage();
         if (image != null) {
@@ -822,6 +883,10 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_NGActionPerformed
 
+    /**
+     * Esse metodo aplica o negativo somente na banda azul da imagem
+     * @param evt 
+     */
     private void NBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NBActionPerformed
         BufferedImage image = pnlImage.getCurrentImage();
         if (image != null) {
@@ -837,6 +902,10 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_NBActionPerformed
 
+    /**
+     * Esse metodo aplica o negativo em todas as bandas da imagem
+     * @param evt 
+     */
     private void NActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NActionPerformed
         BufferedImage image = pnlImage.getCurrentImage();
         if (image != null) {
@@ -851,7 +920,11 @@ public class Main extends javax.swing.JFrame {
             pnlImage.setImage(newImage);
         }
     }//GEN-LAST:event_NActionPerformed
-
+    
+    /**
+     * Esse metodo aplica o controle de brilho aditivo somente na banda vermelha da imagem
+     * @param evt 
+     */
     private void ADITIVO1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ADITIVO1ActionPerformed
         BufferedImage image = pnlImage.getCurrentImage();
         if (image != null) {
@@ -885,6 +958,10 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_ADITIVO1ActionPerformed
 
+    /**
+     * Esse metodo aplica o controle de brilho multiplicativo somente na banda vermelha da imagem
+     * @param evt 
+     */
     private void MULTIPLICATIVO1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MULTIPLICATIVO1ActionPerformed
         BufferedImage image = pnlImage.getCurrentImage();
         if (image != null) {
@@ -919,6 +996,10 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_MULTIPLICATIVO1ActionPerformed
 
+    /**
+     * Esse metodo aplica o controle de brilho aditivo somente na banda verde da imagem
+     * @param evt 
+     */
     private void ADITIVO2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ADITIVO2ActionPerformed
         BufferedImage image = pnlImage.getCurrentImage();
         if (image != null) {
@@ -952,6 +1033,10 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_ADITIVO2ActionPerformed
 
+    /**
+     * Esse metodo aplica o controle de brilho multiplicativo somente na banda verde da imagem
+     * @param evt 
+     */
     private void MULTIPLICATIVO2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MULTIPLICATIVO2ActionPerformed
         BufferedImage image = pnlImage.getCurrentImage();
         if (image != null) {
@@ -986,6 +1071,10 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_MULTIPLICATIVO2ActionPerformed
 
+    /**
+     * Esse metodo aplica o controle de brilho aditivo somente na banda azul da imagem
+     * @param evt 
+     */
     private void ADITIVO3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ADITIVO3ActionPerformed
         BufferedImage image = pnlImage.getCurrentImage();
         if (image != null) {
@@ -1019,6 +1108,10 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_ADITIVO3ActionPerformed
 
+    /**
+     * Esse metodo aplica o controle de brilho multiplicativo somente na banda azul da imagem
+     * @param evt 
+     */
     private void MULTIPLICATIVO3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MULTIPLICATIVO3ActionPerformed
         BufferedImage image = pnlImage.getCurrentImage();
         if (image != null) {
@@ -1053,6 +1146,10 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_MULTIPLICATIVO3ActionPerformed
 
+    /**
+     * Esse metodo aplica o controle de brilho aditivo em todas as bandas da imagem
+     * @param evt 
+     */
     private void ADITIVO4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ADITIVO4ActionPerformed
         BufferedImage image = pnlImage.getCurrentImage();
         if (image != null) {
@@ -1088,6 +1185,10 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_ADITIVO4ActionPerformed
 
+    /**
+     * Esse metodo aplica o controle de brilho multiplicativo em todas as bandas da imagem
+     * @param evt 
+     */
     private void MULTIPLICATIVO4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MULTIPLICATIVO4ActionPerformed
         BufferedImage image = pnlImage.getCurrentImage();
         if (image != null) {
@@ -1124,6 +1225,10 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_MULTIPLICATIVO4ActionPerformed
 
+    /**
+     * Esse metodo aplica o controle de brilho aditivo na banda Y da matriz YIQ caso ela ja esteja inicializada
+     * @param evt 
+     */
     private void ADITIVO5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ADITIVO5ActionPerformed
         try {
 
@@ -1150,6 +1255,10 @@ public class Main extends javax.swing.JFrame {
 
     }//GEN-LAST:event_ADITIVO5ActionPerformed
 
+    /**
+     * Esse metodo aplica o controle de brilho multiplicativo na banda Y da matriz YIQ caso ela ja esteja inicializada
+     * @param evt 
+     */
     private void MULTIPLICATIVO5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MULTIPLICATIVO5ActionPerformed
         try {
 
@@ -1174,6 +1283,10 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_MULTIPLICATIVO5ActionPerformed
 
+    /**
+     * Esse metodo aplica o negativo na banda Y da matriz YIQ caso ela ja esteja inicializada
+     * @param evt 
+     */
     private void NYActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NYActionPerformed
         if (YIQ != null) {
             for (int lin = 0; lin < YIQ.length; lin++) {
@@ -1185,6 +1298,10 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_NYActionPerformed
 
+    /**
+     * Esse metodo aplica a limirizacao somente na banda vermelha da imagem
+     * @param evt 
+     */
     private void LRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LRActionPerformed
         BufferedImage image = pnlImage.getCurrentImage();
         if (image != null) {
@@ -1221,6 +1338,10 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_LRActionPerformed
 
+    /**
+     * Esse metodo aplica a limirizacao na banda Y da matriz YIQ caso ela ja esteja inicializada 
+     * @param evt 
+     */
     private void LYActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LYActionPerformed
         if (YIQ != null) {
 
@@ -1251,6 +1372,10 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_LYActionPerformed
 
+    /**
+     * Esse metodo aplica a limirizacao somente na banda verde da imagem
+     * @param evt 
+     */
     private void LGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LGActionPerformed
         BufferedImage image = pnlImage.getCurrentImage();
         if (image != null) {
@@ -1287,6 +1412,10 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_LGActionPerformed
 
+    /**
+     * Esse metodo aplica a limirizacao somente na banda azul da imagem
+     * @param evt 
+     */
     private void LBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LBActionPerformed
         BufferedImage image = pnlImage.getCurrentImage();
         if (image != null) {
@@ -1323,6 +1452,10 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_LBActionPerformed
 
+    /**
+     * Esse metodo aplica o filtro mediana na banda vermelha da imagem
+     * @param evt 
+     */
     private void MRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MRActionPerformed
         BufferedImage image = pnlImage.getCurrentImage();
         if (image != null) {
@@ -1386,6 +1519,10 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_MRActionPerformed
 
+    /**
+     * Esse metodo aplica o filtro mediana na banda verde da imagem
+     * @param evt 
+     */
     private void MGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MGActionPerformed
         BufferedImage image = pnlImage.getCurrentImage();
         if (image != null) {
@@ -1448,6 +1585,10 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_MGActionPerformed
 
+    /**
+     * Esse metodo aplica o filtro mediana na banda azul da imagem
+     * @param evt 
+     */
     private void MBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MBActionPerformed
         BufferedImage image = pnlImage.getCurrentImage();
         if (image != null) {
@@ -1508,7 +1649,11 @@ public class Main extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_MBActionPerformed
-
+    
+    /**
+     * Esse metodo aplica o filtro mediana na banda Y da matriz YIQ caso ela esteja inicializada
+     * @param evt 
+     */
     private void MYActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MYActionPerformed
         if (YIQ != null) {
             try {
@@ -1558,6 +1703,10 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_MYActionPerformed
 
+    /**
+     * Esse metodo aplica o filtro mediana em todas as bandas da imagem
+     * @param evt 
+     */
     private void MCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MCActionPerformed
         BufferedImage image = pnlImage.getCurrentImage();
         if (image != null) {
@@ -1631,6 +1780,10 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_MCActionPerformed
 
+    /**
+     * Esse metodo aplica uma convolucao m x n na banda vermelha da imagem
+     * @param evt 
+     */
     private void CRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CRActionPerformed
         BufferedImage image = pnlImage.getCurrentImage();
         if (image != null) {
@@ -1700,6 +1853,10 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_CRActionPerformed
 
+    /**
+     * Esse metodo aplica uma convolucao m x n na banda verde da imagem
+     * @param evt 
+     */
     private void CGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CGActionPerformed
         BufferedImage image = pnlImage.getCurrentImage();
         if (image != null) {
@@ -1769,6 +1926,10 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_CGActionPerformed
 
+    /**
+     * Esse metodo aplica uma convolucao m x n na banda azul da imagem
+     * @param evt 
+     */
     private void CBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CBActionPerformed
         BufferedImage image = pnlImage.getCurrentImage();
         if (image != null) {
@@ -1838,6 +1999,10 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_CBActionPerformed
 
+    /**
+     * Esse metodo aplica uma convolucao m x n na banda Y da matriz YIQ caso ela esteja inicializada
+     * @param evt 
+     */
     private void CYActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CYActionPerformed
         if (YIQ != null) {
             BufferedImage image = pnlImage.getCurrentImage();
@@ -1900,6 +2065,10 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_CYActionPerformed
 
+    /**
+     * Esse metodo aplica uma convolucao m x n em todas as bandas da imagem
+     * @param evt 
+     */
     private void CCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CCActionPerformed
         BufferedImage image = pnlImage.getCurrentImage();
         if (image != null) {
@@ -1929,6 +2098,7 @@ public class Main extends javax.swing.JFrame {
                                 "Diga o valor a" + i + "" + j, JOptionPane.OK_CANCEL_OPTION);
 
                         mascara[i][j] = Double.parseDouble(mField.getText());
+                        System.out.println(mascara[i][j]);
                     }
                 }
 
