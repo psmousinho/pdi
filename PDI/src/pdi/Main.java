@@ -11,6 +11,9 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import javax.swing.JFrame;
 
 /**
@@ -99,7 +102,12 @@ public class Main extends javax.swing.JFrame {
         MB = new javax.swing.JMenuItem();
         MY = new javax.swing.JMenuItem();
         MC = new javax.swing.JMenuItem();
-        CONCOLUCAO = new javax.swing.JMenuItem();
+        Convolucao = new javax.swing.JMenu();
+        CR = new javax.swing.JMenuItem();
+        CG = new javax.swing.JMenuItem();
+        CB = new javax.swing.JMenuItem();
+        CY = new javax.swing.JMenuItem();
+        CC = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -479,13 +487,49 @@ public class Main extends javax.swing.JFrame {
 
         Filters.add(Medianas);
 
-        CONCOLUCAO.setText("Convolução");
-        CONCOLUCAO.addActionListener(new java.awt.event.ActionListener() {
+        Convolucao.setText("Convolução");
+
+        CR.setText("Vermelho");
+        CR.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CONCOLUCAOActionPerformed(evt);
+                CRActionPerformed(evt);
             }
         });
-        Filters.add(CONCOLUCAO);
+        Convolucao.add(CR);
+
+        CG.setText("Verde");
+        CG.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CGActionPerformed(evt);
+            }
+        });
+        Convolucao.add(CG);
+
+        CB.setText("Azul");
+        CB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CBActionPerformed(evt);
+            }
+        });
+        Convolucao.add(CB);
+
+        CY.setText("Y");
+        CY.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CYActionPerformed(evt);
+            }
+        });
+        Convolucao.add(CY);
+
+        CC.setText("Completo");
+        CC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CCActionPerformed(evt);
+            }
+        });
+        Convolucao.add(CC);
+
+        Filters.add(Convolucao);
 
         Menu.add(Filters);
 
@@ -706,10 +750,6 @@ public class Main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_BMActionPerformed
 
-    private void CONCOLUCAOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CONCOLUCAOActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_CONCOLUCAOActionPerformed
-
     private void btnDiminuirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDiminuirActionPerformed
         BufferedImage image = pnlImage.getCurrentImage();
         if (image != null) {
@@ -764,7 +804,6 @@ public class Main extends javax.swing.JFrame {
                 }
             }
             pnlImage.setImage(newImage);
-
         }
     }//GEN-LAST:event_NRActionPerformed
 
@@ -780,7 +819,6 @@ public class Main extends javax.swing.JFrame {
                 }
             }
             pnlImage.setImage(newImage);
-
         }
     }//GEN-LAST:event_NGActionPerformed
 
@@ -811,7 +849,6 @@ public class Main extends javax.swing.JFrame {
                 }
             }
             pnlImage.setImage(newImage);
-
         }
     }//GEN-LAST:event_NActionPerformed
 
@@ -1311,35 +1348,38 @@ public class Main extends javax.swing.JFrame {
                 for (int lin = 0; lin < image.getWidth(); lin++) {
                     for (int col = 0; col < image.getHeight(); col++) {
                         Color color = null;
-                        int r = 0;
+                        ArrayList<Integer> r = new ArrayList<>();
+                        int mediana = 0;
 
-                        for (int i = lin - m / 2; i < lin + m / 2; i++) {
-                            if (i < 0 || i >= image.getWidth()) {
-                                continue;
-                            }
-                            for (int j = col - n / 2; j < col + n / 2; j++) {
-                                if (j < 0 || j >= image.getHeight()) {
+                        for (int i = lin - (m / 2); i <= lin + (m / 2); i++) {
+                            for (int j = col - (n / 2); j <= col + (n / 2); j++) {
+                                if (i < 0 || i >= image.getWidth()) {
+                                    r.add(0);
+                                    continue;
+                                } else if (j < 0 || j >= image.getHeight()) {
+                                    r.add(0);
                                     continue;
                                 }
 
                                 color = new Color(image.getRGB(i, j));
-                                r += color.getRed();
+                                r.add(color.getRed());
 
                             }
                         }
 
-                        r = r / (m * n);
-                        r = (r > 255) ? 255 : (r < 0) ? 0 : r;
+                        Collections.sort(r);
+
+                        mediana = r.get((m * n) / 2);
 
                         color = new Color(image.getRGB(lin, col));
-                        color = new Color(r, color.getGreen(), color.getBlue());
+                        color = new Color(mediana, color.getGreen(), color.getBlue());
                         newImage.setRGB(lin, col, color.getRGB());
 
                     }
                 }
 
                 pnlImage.setImage(newImage);
-
+                System.out.println("123");
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(null, "Caracter invalido. Digite um numero.");
             }
@@ -1371,28 +1411,31 @@ public class Main extends javax.swing.JFrame {
                 for (int lin = 0; lin < image.getWidth(); lin++) {
                     for (int col = 0; col < image.getHeight(); col++) {
                         Color color = null;
-                        int g = 0;
+                        ArrayList<Integer> g = new ArrayList<>();
+                        int mediana = 0;
 
-                        for (int i = lin - m / 2; i < lin + m / 2; i++) {
-                            if (i < 0 || i >= image.getWidth()) {
-                                continue;
-                            }
-                            for (int j = col - n / 2; j < col + n / 2; j++) {
-                                if (j < 0 || j >= image.getHeight()) {
+                        for (int i = lin - m / 2; i <= lin + m / 2; i++) {
+
+                            for (int j = col - n / 2; j <= col + n / 2; j++) {
+                                if (i < 0 || i >= image.getWidth()) {
+                                    g.add(0);
+                                    continue;
+                                } else if (j < 0 || j >= image.getHeight()) {
+                                    g.add(0);
                                     continue;
                                 }
 
                                 color = new Color(image.getRGB(i, j));
-                                g += color.getGreen();
+                                g.add(color.getGreen());
 
                             }
                         }
 
-                        g /= m * n;
-                        g = (g > 255) ? 255 : (g < 0) ? 0 : g;
+                        Collections.sort(g);
+                        mediana = g.get((m * n) / 2);
 
                         color = new Color(image.getRGB(lin, col));
-                        color = new Color(color.getGreen(), g, color.getBlue());
+                        color = new Color(color.getGreen(), mediana, color.getBlue());
                         newImage.setRGB(lin, col, color.getRGB());
                     }
                 }
@@ -1430,28 +1473,30 @@ public class Main extends javax.swing.JFrame {
                 for (int lin = 0; lin < image.getWidth(); lin++) {
                     for (int col = 0; col < image.getHeight(); col++) {
                         Color color = null;
-                        int b = 0;
+                        ArrayList<Integer> b = new ArrayList<>();
+                        int mediana = 0;
 
-                        for (int i = lin - m / 2; i < lin + m / 2; i++) {
-                            if (i < 0 || i >= image.getWidth()) {
-                                continue;
-                            }
-                            for (int j = col - n / 2; j < col + n / 2; j++) {
-                                if (j < 0 || j >= image.getHeight()) {
+                        for (int i = lin - m / 2; i <= lin + m / 2; i++) {
+                            for (int j = col - n / 2; j <= col + n / 2; j++) {
+                                if (i < 0 || i >= image.getWidth()) {
+                                    b.add(0);
+                                    continue;
+                                } else if (j < 0 || j >= image.getHeight()) {
+                                    b.add(0);
                                     continue;
                                 }
 
                                 color = new Color(image.getRGB(i, j));
-                                b += color.getBlue();
+                                b.add(color.getBlue());
 
                             }
                         }
 
-                        b /= m * n;
-                        b = (b > 255) ? 255 : (b < 0) ? 0 : b;
+                        Collections.sort(b);
+                        mediana = b.get((m * n) / 2);
 
                         color = new Color(image.getRGB(lin, col));
-                        color = new Color(color.getBlue(), color.getGreen(), b);
+                        color = new Color(color.getBlue(), color.getGreen(), mediana);
                         newImage.setRGB(lin, col, color.getRGB());
                     }
                 }
@@ -1485,25 +1530,25 @@ public class Main extends javax.swing.JFrame {
 
                 for (int lin = 0; lin < YIQ.length; lin++) {
                     for (int col = 0; col < YIQ[0].length; col++) {
-                        int Y = 0;
+                        ArrayList<Double> Y = new ArrayList<>();
 
-                        for (int i = lin - m / 2; i < lin + m / 2; i++) {
-                            if (i < 0 || i >= YIQ.length) {
-                                continue;
-                            }
-                            for (int j = col - n / 2; j < col + n / 2; j++) {
-                                if (j < 0 || j >= YIQ[0].length) {
+                        for (int i = lin - m / 2; i <= lin + m / 2; i++) {
+                            for (int j = col - n / 2; j <= col + n / 2; j++) {
+                                if (i < 0 || i >= YIQ.length) {
+                                    Y.add(0.0);
+                                    continue;
+                                } else if (j < 0 || j >= YIQ[0].length) {
+                                    Y.add(0.0);
                                     continue;
                                 }
 
-                                Y += YIQ[i][j][0];
+                                Y.add(YIQ[i][j][0]);
 
                             }
                         }
 
-                        Y /= m * n;
-
-                        YIQ[lin][col][0] = Y;
+                        Collections.sort(Y);
+                        YIQ[lin][col][0] = Y.get((m * n) / 2);
 
                     }
                 }
@@ -1537,35 +1582,43 @@ public class Main extends javax.swing.JFrame {
 
                 for (int lin = 0; lin < image.getWidth(); lin++) {
                     for (int col = 0; col < image.getHeight(); col++) {
-                        int r = 0;
-                        int g = 0;
-                        int b = 0;
+                        ArrayList<Integer> r = new ArrayList<>();
+                        ArrayList<Integer> g = new ArrayList<>();
+                        ArrayList<Integer> b = new ArrayList<>();
+                        int medianaR = 0;
+                        int medianaG = 0;
+                        int medianaB = 0;
                         Color color = null;
-                        for (int i = lin - m / 2; i < lin + m / 2; i++) {
-                            if (i < 0 || i >= image.getWidth()) {
-                                continue;
-                            }
-                            for (int j = col - n / 2; j < col + n / 2; j++) {
-                                if (j < 0 || j >= image.getHeight()) {
+                        for (int i = lin - m / 2; i <= lin + m / 2; i++) {
+                            for (int j = col - n / 2; j <= col + n / 2; j++) {
+                                if (i < 0 || i >= image.getWidth()) {
+                                    r.add(0);
+                                    g.add(0);
+                                    b.add(0);
+                                    continue;
+                                } else if (j < 0 || j >= image.getHeight()) {
+                                    r.add(0);
+                                    g.add(0);
+                                    b.add(0);
                                     continue;
                                 }
 
                                 color = new Color(image.getRGB(i, j));
-                                r += color.getRed();
-                                g += color.getGreen();
-                                b += color.getBlue();
+                                r.add(color.getRed());
+                                g.add(color.getGreen());
+                                b.add(color.getBlue());
                             }
                         }
 
-                        r /= m * n;
-                        g /= m * n;
-                        b /= m * n;
+                        Collections.sort(r);
+                        Collections.sort(g);
+                        Collections.sort(b);
 
-                        r = (r > 255) ? 255 : (r < 0) ? 0 : r;
-                        g = (g > 255) ? 255 : (g < 0) ? 0 : g;
-                        b = (b > 255) ? 255 : (b < 0) ? 0 : b;
+                        medianaR = r.get((m * n) / 2);
+                        medianaG = g.get((m * n) / 2);
+                        medianaB = b.get((m * n) / 2);
 
-                        color = new Color(r, g, b);
+                        color = new Color(medianaR, medianaG, medianaB);
                         newImage.setRGB(lin, col, color.getRGB());
                     }
                 }
@@ -1577,6 +1630,356 @@ public class Main extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_MCActionPerformed
+
+    private void CRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CRActionPerformed
+        BufferedImage image = pnlImage.getCurrentImage();
+        if (image != null) {
+            try {
+                int m, n, bias;
+                JTextField mField = new JTextField(5);
+                JTextField nField = new JTextField(5);
+                JTextField bField = new JTextField(5);
+
+                Object[] fields = {"m:", mField, "n:", nField, "Bias:", bField};
+
+                int result = JOptionPane.showConfirmDialog(null, fields,
+                        "Diga o valor m x n do seu filtro e sua bias", JOptionPane.OK_CANCEL_OPTION);
+
+                if (result == JOptionPane.OK_OPTION) {
+                    m = Integer.parseInt(mField.getText());
+                    n = Integer.parseInt(nField.getText());
+                    bias = Integer.parseInt(bField.getText());
+                } else {
+                    return;
+                }
+
+                double[][] mascara = new double[m][n];
+                for (int i = 0; i < m; i++) {
+                    for (int j = 0; j < n; j++) {
+                        JOptionPane.showConfirmDialog(null, mField,
+                                "Diga o valor a" + i + "" + j, JOptionPane.OK_CANCEL_OPTION);
+                        mascara[i][j] = Double.parseDouble(mField.getText());
+                    }
+                }
+
+                BufferedImage newImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_RGB);
+
+                for (int lin = 0; lin < image.getWidth(); lin++) {
+                    for (int col = 0; col < image.getHeight(); col++) {
+
+                        double r = 0;
+                        Color color = null;
+
+                        for (int i = lin - m / 2, x = 0; i <= lin + m / 2; i++, x++) {
+                            for (int j = col - n / 2, y = 0; j <= col + n / 2; j++, y++) {
+                                if (i < 0 || i >= image.getWidth()) {
+                                    continue;
+                                } else if (j < 0 || j >= image.getHeight()) {
+                                    continue;
+                                }
+
+                                color = new Color(image.getRGB(i, j));
+                                r += color.getRed() * mascara[x][y];
+                            }
+                        }
+                        r += bias;
+                        r = (r > 255) ? 255 : (r < 0) ? 0 : r;
+
+                        color = new Color(image.getRGB(lin, col));
+                        color = new Color((int) r, color.getGreen(), color.getBlue());
+                        newImage.setRGB(lin, col, color.getRGB());
+
+                    }
+                }
+
+                pnlImage.setImage(newImage);
+
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Caracter invalido. Digite um numero.");
+            }
+        }
+    }//GEN-LAST:event_CRActionPerformed
+
+    private void CGActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CGActionPerformed
+        BufferedImage image = pnlImage.getCurrentImage();
+        if (image != null) {
+            try {
+                int m, n, bias;
+                JTextField mField = new JTextField(5);
+                JTextField nField = new JTextField(5);
+                JTextField bField = new JTextField(5);
+
+                Object[] fields = {"m:", mField, "n:", nField, "Bias:", bField};
+
+                int result = JOptionPane.showConfirmDialog(null, fields,
+                        "Diga o valor m x n do seu filtro e sua bias", JOptionPane.OK_CANCEL_OPTION);
+
+                if (result == JOptionPane.OK_OPTION) {
+                    m = Integer.parseInt(mField.getText());
+                    n = Integer.parseInt(nField.getText());
+                    bias = Integer.parseInt(bField.getText());
+                } else {
+                    return;
+                }
+
+                double[][] mascara = new double[m][n];
+                for (int i = 0; i < m; i++) {
+                    for (int j = 0; j < n; j++) {
+                        JOptionPane.showConfirmDialog(null, mField,
+                                "Diga o valor a" + i + "" + j, JOptionPane.OK_CANCEL_OPTION);
+                        mascara[i][j] = Double.parseDouble(mField.getText());
+                    }
+                }
+
+                BufferedImage newImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_RGB);
+
+                for (int lin = 0; lin < image.getWidth(); lin++) {
+                    for (int col = 0; col < image.getHeight(); col++) {
+
+                        double g = 0;
+                        Color color = null;
+
+                        for (int i = lin - m / 2, x = 0; i <= lin + m / 2; i++, x++) {
+                            for (int j = col - n / 2, y = 0; j <= col + n / 2; j++, y++) {
+                                if (i < 0 || i >= image.getWidth()) {
+                                    continue;
+                                } else if (j < 0 || j >= image.getHeight()) {
+                                    continue;
+                                }
+
+                                color = new Color(image.getRGB(i, j));
+                                g += color.getGreen() * mascara[x][y];
+                            }
+                        }
+                        g += bias;
+                        g = (g > 255) ? 255 : (g < 0) ? 0 : g;
+
+                        color = new Color(image.getRGB(lin, col));
+                        color = new Color(color.getRed(), (int) g, color.getBlue());
+                        newImage.setRGB(lin, col, color.getRGB());
+
+                    }
+                }
+
+                pnlImage.setImage(newImage);
+
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Caracter invalido. Digite um numero.");
+            }
+        }
+    }//GEN-LAST:event_CGActionPerformed
+
+    private void CBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CBActionPerformed
+        BufferedImage image = pnlImage.getCurrentImage();
+        if (image != null) {
+            try {
+                int m, n, bias;
+                JTextField mField = new JTextField(5);
+                JTextField nField = new JTextField(5);
+                JTextField bField = new JTextField(5);
+
+                Object[] fields = {"m:", mField, "n:", nField, "Bias:", bField};
+
+                int result = JOptionPane.showConfirmDialog(null, fields,
+                        "Diga o valor m x n do seu filtro e sua bias", JOptionPane.OK_CANCEL_OPTION);
+
+                if (result == JOptionPane.OK_OPTION) {
+                    m = Integer.parseInt(mField.getText());
+                    n = Integer.parseInt(nField.getText());
+                    bias = Integer.parseInt(bField.getText());
+                } else {
+                    return;
+                }
+
+                double[][] mascara = new double[m][n];
+                for (int i = 0; i < m; i++) {
+                    for (int j = 0; j < n; j++) {
+                        JOptionPane.showConfirmDialog(null, mField,
+                                "Diga o valor a" + i + "" + j, JOptionPane.OK_CANCEL_OPTION);
+                        mascara[i][j] = Double.parseDouble(mField.getText());
+                    }
+                }
+
+                BufferedImage newImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_RGB);
+
+                for (int lin = 0; lin < image.getWidth(); lin++) {
+                    for (int col = 0; col < image.getHeight(); col++) {
+
+                        double b = 0;
+                        Color color = null;
+
+                        for (int i = lin - m / 2, x = 0; i <= lin + m / 2; i++, x++) {
+                            for (int j = col - n / 2, y = 0; j <= col + n / 2; j++, y++) {
+                                if (i < 0 || i >= image.getWidth()) {
+                                    continue;
+                                } else if (j < 0 || j >= image.getHeight()) {
+                                    continue;
+                                }
+
+                                color = new Color(image.getRGB(i, j));
+                                b += color.getGreen() * mascara[x][y];
+                            }
+                        }
+                        b += bias;
+                        b = (b > 255) ? 255 : (b < 0) ? 0 : b;
+
+                        color = new Color(image.getRGB(lin, col));
+                        color = new Color(color.getRed(), color.getGreen(), (int) b);
+                        newImage.setRGB(lin, col, color.getRGB());
+
+                    }
+                }
+
+                pnlImage.setImage(newImage);
+
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Caracter invalido. Digite um numero.");
+            }
+        }
+    }//GEN-LAST:event_CBActionPerformed
+
+    private void CYActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CYActionPerformed
+        if (YIQ != null) {
+            BufferedImage image = pnlImage.getCurrentImage();
+
+            try {
+                int m, n, bias;
+                JTextField mField = new JTextField(5);
+                JTextField nField = new JTextField(5);
+                JTextField bField = new JTextField(5);
+
+                Object[] fields = {"m:", mField, "n:", nField, "Bias:", bField};
+
+                int result = JOptionPane.showConfirmDialog(null, fields,
+                        "Diga o valor m x n do seu filtro e sua bias", JOptionPane.OK_CANCEL_OPTION);
+
+                if (result == JOptionPane.OK_OPTION) {
+                    m = Integer.parseInt(mField.getText());
+                    n = Integer.parseInt(nField.getText());
+                    bias = Integer.parseInt(bField.getText());
+                } else {
+                    return;
+                }
+
+                double[][] mascara = new double[m][n];
+                for (int i = 0; i < m; i++) {
+                    for (int j = 0; j < n; j++) {
+                        JOptionPane.showConfirmDialog(null, mField,
+                                "Diga o valor a" + i + "" + j, JOptionPane.OK_CANCEL_OPTION);
+                        mascara[i][j] = Double.parseDouble(mField.getText());
+                    }
+                }
+
+                for (int lin = 0; lin < YIQ.length; lin++) {
+                    for (int col = 0; col < YIQ[0].length; col++) {
+
+                        double Y = 0;
+
+                        for (int i = lin - m / 2, x = 0; i <= lin + m / 2; i++, x++) {
+                            for (int j = col - n / 2, y = 0; j <= col + n / 2; j++, y++) {
+                                if (i < 0 || i >= image.getWidth()) {
+                                    continue;
+                                } else if (j < 0 || j >= image.getHeight()) {
+                                    continue;
+                                }
+
+                                Y += YIQ[i][j][0] * mascara[x][y];
+                            }
+                        }
+
+                        Y += bias;
+
+                        YIQ[lin][col][0] = Y;
+
+                    }
+                }
+
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Caracter invalido. Digite um numero.");
+            }
+        }
+    }//GEN-LAST:event_CYActionPerformed
+
+    private void CCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CCActionPerformed
+        BufferedImage image = pnlImage.getCurrentImage();
+        if (image != null) {
+            try {
+                int m, n, bias;
+                JTextField mField = new JTextField(5);
+                JTextField nField = new JTextField(5);
+                JTextField bField = new JTextField(5);
+
+                Object[] fields = {"m:", mField, "n:", nField, "Bias:", bField};
+
+                int result = JOptionPane.showConfirmDialog(null, fields,
+                        "Diga o valor m x n do seu filtro e sua bias", JOptionPane.OK_CANCEL_OPTION);
+
+                if (result == JOptionPane.OK_OPTION) {
+                    m = Integer.parseInt(mField.getText());
+                    n = Integer.parseInt(nField.getText());
+                    bias = Integer.parseInt(nField.getText());
+                } else {
+                    return;
+                }
+
+                double[][] mascara = new double[m][n];
+                for (int i = 0; i < m; i++) {
+                    for (int j = 0; j < n; j++) {
+                        JOptionPane.showConfirmDialog(null, mField,
+                                "Diga o valor a" + i + "" + j, JOptionPane.OK_CANCEL_OPTION);
+
+                        mascara[i][j] = Double.parseDouble(mField.getText());
+                        System.out.println(mascara[i][j]);
+                    }
+                }
+
+                BufferedImage newImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_RGB);
+
+                for (int lin = 0; lin < image.getWidth(); lin++) {
+                    for (int col = 0; col < image.getHeight(); col++) {
+
+                        double r = 0;
+                        double g = 0;
+                        double b = 0;
+                        Color color = null;
+
+                        for (int i = lin - m / 2, x = 0; i <= lin + m / 2; i++, x++) {
+                            for (int j = col - n / 2, y = 0; j <= col + n / 2; j++, y++) {
+                                if (i < 0 || i >= image.getWidth()) {
+                                    continue;
+                                } else if (j < 0 || j >= image.getHeight()) {
+                                    continue;
+                                }
+
+                                color = new Color(image.getRGB(i, j));
+
+                                r += color.getRed() * mascara[x][y];
+                                g += color.getGreen() * mascara[x][y];
+                                b += color.getBlue() * mascara[x][y];
+
+                            }
+                        }
+
+                        r += bias;
+                        g += bias;
+                        b += bias;
+                        r = (r > 255) ? 255 : (r < 0) ? 0 : r;
+                        g = (g > 255) ? 255 : (g < 0) ? 0 : g;
+                        b = (b > 255) ? 255 : (b < 0) ? 0 : b;
+
+                        color = new Color((int) r, (int) g, (int) b);
+                        newImage.setRGB(lin, col, color.getRGB());
+
+                    }
+                }
+
+                pnlImage.setImage(newImage);
+
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Caracter invalido. Digite um numero.");
+            }
+        }
+    }//GEN-LAST:event_CCActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1658,8 +2061,13 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenu BY;
     private javax.swing.JMenu Bandas;
     private javax.swing.JMenu Brilhos;
+    private javax.swing.JMenuItem CB;
+    private javax.swing.JMenuItem CC;
+    private javax.swing.JMenuItem CG;
     private javax.swing.JMenuItem CLoseAction;
-    private javax.swing.JMenuItem CONCOLUCAO;
+    private javax.swing.JMenuItem CR;
+    private javax.swing.JMenuItem CY;
+    private javax.swing.JMenu Convolucao;
     private javax.swing.JMenu File;
     private javax.swing.JMenu Filters;
     private javax.swing.JMenuItem G;
