@@ -1929,7 +1929,6 @@ public class Main extends javax.swing.JFrame {
                                 "Diga o valor a" + i + "" + j, JOptionPane.OK_CANCEL_OPTION);
 
                         mascara[i][j] = Double.parseDouble(mField.getText());
-                        System.out.println(mascara[i][j]);
                     }
                 }
 
