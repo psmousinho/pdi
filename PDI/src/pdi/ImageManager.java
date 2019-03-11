@@ -12,7 +12,7 @@ import javax.imageio.ImageIO;
 
 /**
  *
- * @author Pablo Suria
+ * @author Pablo Suriaaa
  */
 public class ImageManager {
 
